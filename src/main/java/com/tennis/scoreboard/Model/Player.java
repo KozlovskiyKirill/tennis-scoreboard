@@ -1,25 +1,28 @@
 package com.tennis.scoreboard.Model;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.Audited;
-import org.springframework.data.annotation.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import jakarta.persistence.Id;
 
 import java.util.List;
 
 @Entity
-@Data
-@Audited.Table(name = "Players")
+@NoArgsConstructor
+@Getter
+@Table(name = "Players", indexes = {@Index(name="fn_name_index", columnList = "name", unique = true)})
 public class Player {
     @Id
-    private int ID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    @Column(name="Name")
-    private String Name;
+    @Column(name="name", nullable = false, unique = true)
+    private String name;
 
-    @OneToMany(mappedBy = "Players")
-    private List<Match> matches;
+    public Player (String name){
+        this.name = name;
+    }
+
 }

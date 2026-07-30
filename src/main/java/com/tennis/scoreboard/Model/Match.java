@@ -1,23 +1,35 @@
 package com.tennis.scoreboard.Model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.UUID;
 
 @Entity
-@Data
+@Getter
 @Table (name = "Matches")
+@NoArgsConstructor
 public class Match {
     @Id
-    private int ID;
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Integer ID;
 
     @ManyToOne
-    @JoinColumn(name="Player1")
-    private int Player1;
+    @JoinColumn(name="player1_id")
+    private Player _player1;
 
     @ManyToOne
-    @JoinColumn(name="Player2")
-    private int Player2;
+    @JoinColumn(name="player2_id")
+    private Player _player2;
 
-    @Column(name="Winner")
-    private int Winner;
+    @Column(name="winner")
+    private int winner;
+
+    public Match(Player player1, Player player2){
+        _player1 = player1;
+        _player2 = player2;
+    }
 }
