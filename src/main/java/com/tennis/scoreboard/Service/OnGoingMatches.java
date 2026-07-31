@@ -17,4 +17,8 @@ public class OnGoingMatches {
         matches.put(uuid,match);
         return uuid;
     }
+
+    public Match find(UUID uuid){
+        return matches.getOrDefault(uuid, null);
+    }
 }

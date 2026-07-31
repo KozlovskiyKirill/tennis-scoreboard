@@ -1,12 +1,8 @@
 package com.tennis.scoreboard.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -32,4 +28,25 @@ public class Match {
         _player1 = player1;
         _player2 = player2;
     }
+
+    private Set currentSet;
+    private int setCount = 0;
+
+    private int firstPlayerSetWin = 0;
+    private int secondPlayerSetWin = 0;
+
+    public void addPoints(String player){
+        if(currentSet==null){
+            // здесь проверка на кол-во сетов
+            currentSet = new Set();
+            currentSet.addPoints(player);
+            ++setCount;
+        }
+    }
+
+    public boolean isFinished(){
+        return false;
+    }
+
+
 }

@@ -2,7 +2,6 @@ package com.tennis.scoreboard.Model;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.Id;
@@ -21,8 +20,7 @@ public class Player {
     @Column(name="name", nullable = false, unique = true)
     private String name;
 
-    public Player (String name){
-        this.name = name;
+    public Player (String name){this.name = name;
     }
 
 }
