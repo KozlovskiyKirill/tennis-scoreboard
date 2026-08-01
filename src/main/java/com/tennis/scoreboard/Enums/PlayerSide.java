@@ -1,4 +1,4 @@
-package com.tennis.scoreboard.Model;
+package com.tennis.scoreboard.Enums;
 
 public enum PlayerSide {
     FIRST,SECOND
