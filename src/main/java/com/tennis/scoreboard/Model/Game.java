@@ -52,4 +52,26 @@ public class Game {
         else return secondPlayer;
     }
     // метод для tie-break и поля для него
+    private Integer firstPlayerTieBreakPoints = 0;
+    private Integer secondPlayerTieBreakPoints = 0;
+
+    void addTieBreakPoints(PlayerSide player){
+        if(player==PlayerSide.FIRST){
+            ++firstPlayerTieBreakPoints;
+        }
+        else ++secondPlayerTieBreakPoints;
+    }
+
+    boolean isTieBreakFinished(){
+        if(firstPlayerTieBreakPoints-secondPlayerTieBreakPoints>=2 && firstPlayerTieBreakPoints>=7){
+            winner = PlayerSide.FIRST;
+            return true;
+        }
+        else if(secondPlayerTieBreakPoints-firstPlayerTieBreakPoints>=2 && secondPlayerTieBreakPoints>=7){
+            winner = PlayerSide.SECOND;
+            return true;
+        }
+        else return false;
+    }
+
 }
