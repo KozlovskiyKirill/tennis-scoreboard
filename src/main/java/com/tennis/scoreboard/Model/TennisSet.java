@@ -17,9 +17,12 @@ public class TennisSet {
 
     PlayerSide winner = null;
 
+    // поля для подсчета очков тайбрейка+тесты внизу доделать
+
 
     void addPoints(PlayerSide player){
         // проверка на счет и т.д.
+        // Если tie-break сделать перевод на другой метод
         if(currentGame==null){
             currentGame = new Game();
         }

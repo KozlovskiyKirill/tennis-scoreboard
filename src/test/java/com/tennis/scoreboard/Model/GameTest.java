@@ -15,6 +15,7 @@ class GameTest {
         Game game = new Game();
         game.addPoints(PlayerSide.FIRST);
         assertEquals(Score.FIFTEEN, game.getFirstPlayer());
+        assertNull(game.getWinner());
     }
 
     @Test
@@ -23,6 +24,7 @@ class GameTest {
         game.addPoints(PlayerSide.FIRST);
         game.addPoints(PlayerSide.FIRST);
         assertEquals(Score.THIRTY,game.getFirstPlayer());
+        assertNull(game.getWinner());
     }
 
     @Test
@@ -32,6 +34,7 @@ class GameTest {
         game.addPoints(PlayerSide.FIRST);
         game.addPoints(PlayerSide.FIRST);
         assertEquals(Score.FORTY,game.getFirstPlayer());
+        assertNull(game.getWinner());
     }
 
     @Test
@@ -51,6 +54,7 @@ class GameTest {
         Game game = new Game();
         game.addPoints(PlayerSide.SECOND);
         assertEquals(Score.FIFTEEN, game.getSecondPlayer());
+        assertNull(game.getWinner());
     }
 
     @Test
@@ -59,6 +63,7 @@ class GameTest {
         game.addPoints(PlayerSide.SECOND);
         game.addPoints(PlayerSide.SECOND);
         assertEquals(Score.THIRTY,game.getSecondPlayer());
+        assertNull(game.getWinner());
     }
 
     @Test
@@ -68,6 +73,7 @@ class GameTest {
         game.addPoints(PlayerSide.SECOND);
         game.addPoints(PlayerSide.SECOND);
         assertEquals(Score.FORTY,game.getSecondPlayer());
+        assertNull(game.getWinner());
     }
 
     @Test
@@ -177,6 +183,7 @@ class GameTest {
         game.addPoints(PlayerSide.SECOND);
         game.addPoints(PlayerSide.FIRST);
         assertFalse(game.isFinished());
+        assertNull(game.getWinner());
     }
 
     /* ПОБЕДА ПОСЛЕ НИЧЬИ*/
@@ -225,6 +232,7 @@ class GameTest {
         game.addPoints(PlayerSide.SECOND);
         game.addPoints(PlayerSide.FIRST);
         assertFalse(game.isFinished());
+        assertNull(game.getWinner());
     }
 
     /*МАТЧ ЗАТЯНУЛСЯ ПОСЛЕ 40, 40 НО ПОБЕДИТЕЛЬ ОПРЕДЕН*/
@@ -366,6 +374,7 @@ class GameTest {
         assertFalse(game.isTieBreakFinished());
         assertEquals(8,game.getFirstPlayerTieBreakPoints());
         assertEquals(8,game.getSecondPlayerTieBreakPoints());
+        assertNull(game.getWinner());
     }
 
     /*ИГРА ЗАТЯГИВАЕТСЯ, НО ЗАКАНЧИВАЕТСЯ ПОБЕДОЙ ОДНОГО ИЗ ИГРОКОВ*/
