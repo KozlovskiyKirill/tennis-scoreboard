@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SetTest {
-    // добавление законченных игр игроку
 
     private void finishGame(TennisSet set, PlayerSide winner) {
         for (int i = 0; i < 4; i++) {
@@ -18,6 +17,26 @@ public class SetTest {
     private void winNTimes(TennisSet set, PlayerSide winner, int count){
         for(int i = 0; i<count;i++){
             finishGame(set,winner);
+        }
+    }
+
+    private void reachSixSix(TennisSet set){
+        for(int i = 0; i<5;i++){
+            finishGame(set,PlayerSide.FIRST);
+            finishGame(set,PlayerSide.SECOND);
+        }
+        finishGame(set,PlayerSide.FIRST);    // 6-5
+        finishGame(set,PlayerSide.SECOND);   // 6-6 -> tieBreak=true
+    }
+
+    private void playTieBreak(TennisSet set, PlayerSide winner, int loserTieBreakPoints){
+        for(int i = 0; i<loserTieBreakPoints;i++){
+            set.addPoints(PlayerSide.FIRST);
+            set.addPoints(PlayerSide.SECOND);
+        }
+        int winnerPoints = Math.max(loserTieBreakPoints + 2, 7);
+        for(int i = 0; i<winnerPoints - loserTieBreakPoints;i++){
+            set.addPoints(winner);
         }
     }
 
@@ -65,7 +84,7 @@ public class SetTest {
     void firstWinsFive(){
         TennisSet set = new TennisSet();
         winNTimes(set,PlayerSide.FIRST,5);
-        assertEquals(3, set.getFirstPlayerWin());
+        assertEquals(5, set.getFirstPlayerWin());
         assertEquals(0,set.getSecondPlayerWin());
         assertFalse(set.isFinished());
         assertNull(set.getWinner());
@@ -75,7 +94,7 @@ public class SetTest {
     void firstWinsSix(){
         TennisSet set = new TennisSet();
         winNTimes(set,PlayerSide.FIRST,6);
-        assertEquals(3, set.getFirstPlayerWin());
+        assertEquals(6, set.getFirstPlayerWin());
         assertEquals(0,set.getSecondPlayerWin());
         assertTrue(set.isFinished());
         assertEquals(PlayerSide.FIRST,set.getWinner());
@@ -215,4 +234,81 @@ public class SetTest {
         assertEquals(PlayerSide.SECOND, set.getWinner());
     }
     // при тай-бреке считать очки
+
+    // / когда сет создаёт простую игру vs тай-брейк
+    @Test
+    void regularGameBeforeSixSix(){
+        TennisSet set = new TennisSet();
+        set.addPoints(PlayerSide.FIRST);
+        assertNotNull(set.getCurrentGame());
+        assertFalse(set.getCurrentGame().isTieBreak(), "до 6-6 сет должен создавать простую игру");
+        assertFalse(set.isFinished());
+    }
+
+    @Test
+    void tieBreakGameAfterSixSix(){
+        TennisSet set = new TennisSet();
+        reachSixSix(set);
+        set.addPoints(PlayerSide.FIRST);
+        assertNotNull(set.getCurrentGame());
+        assertTrue(set.getCurrentGame().isTieBreak(), "после 6-6 сет должен создавать тай-брейк");
+        assertFalse(set.isFinished());
+    }
+
+    @Test
+    void sixSixIsNotFinished(){
+        TennisSet set = new TennisSet();
+        reachSixSix(set);
+        assertFalse(set.isFinished());
+        assertNull(set.getWinner());
+    }
+
+    // / победа через тай-брейк (сет всегда заканчивается 7-6)
+    @Test
+    void firstWinsSetAfterTieBreak(){
+        TennisSet set = new TennisSet();
+        reachSixSix(set);
+        playTieBreak(set, PlayerSide.FIRST, 5);
+        assertTrue(set.isFinished());
+        assertEquals(PlayerSide.FIRST, set.getWinner());
+        assertEquals(7, set.getFirstPlayerWin());
+        assertEquals(6, set.getSecondPlayerWin());
+    }
+
+    @Test
+    void secondWinsSetAfterTieBreak(){
+        TennisSet set = new TennisSet();
+        reachSixSix(set);
+        playTieBreak(set, PlayerSide.SECOND, 5);
+        assertTrue(set.isFinished());
+        assertEquals(PlayerSide.SECOND, set.getWinner());
+        assertEquals(6, set.getFirstPlayerWin());
+        assertEquals(7, set.getSecondPlayerWin());
+    }
+
+    @Test
+    void tieBreakGoesToEightSixButSetIsSevenSix(){
+        TennisSet set = new TennisSet();
+        reachSixSix(set);
+        playTieBreak(set, PlayerSide.FIRST, 6);
+        assertTrue(set.isFinished());
+        assertEquals(PlayerSide.FIRST, set.getWinner());
+        assertEquals(7, set.getFirstPlayerWin());
+        assertEquals(6, set.getSecondPlayerWin());
+    }
+
+    @Test
+    void pointsIgnoredAfterSetFinishedByTieBreak(){
+        TennisSet set = new TennisSet();
+        reachSixSix(set);
+        playTieBreak(set, PlayerSide.FIRST, 5);
+        assertTrue(set.isFinished());
+
+        set.addPoints(PlayerSide.FIRST);
+        set.addPoints(PlayerSide.SECOND);
+
+        assertEquals(PlayerSide.FIRST, set.getWinner());
+        assertTrue(set.isFinished());
+    }
+
 }

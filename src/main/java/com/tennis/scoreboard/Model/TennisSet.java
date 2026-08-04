@@ -17,14 +17,17 @@ public class TennisSet {
 
     PlayerSide winner = null;
 
+    private boolean isFinished = false;
+
     // поля для подсчета очков тайбрейка+тесты внизу доделать
+    private boolean tieBreak = false;
 
 
     void addPoints(PlayerSide player){
-        // проверка на счет и т.д.
-        // Если tie-break сделать перевод на другой метод
+        if(isFinished) return;
         if(currentGame==null){
-            currentGame = new Game();
+            if(tieBreak) currentGame = new Game(true);
+            else currentGame = new Game(false);
         }
         currentGame.addPoints(player);
         if(currentGame.isFinished()){
@@ -33,19 +36,35 @@ public class TennisSet {
             PlayerSide winner = currentGame.getWinner();
             if(winner==PlayerSide.FIRST) ++firstPlayerWin;
             else ++secondPlayerWin;
+            handleSet();
             currentGame = null;
         }
     }
     boolean isFinished(){
-        // упрощенный вариант, доработать
-        if(gameCount==7){
-            if(firstPlayerWin>secondPlayerWin) winner = PlayerSide.FIRST;
-            else winner = PlayerSide.SECOND;
-            return true;
+        return isFinished;
+    }
+
+    private void handleSet(){
+
+        if(firstPlayerWin==6 && secondPlayerWin<=4){
+            finishSet(PlayerSide.FIRST);
+        } else if(secondPlayerWin==6 && firstPlayerWin<=4){
+            finishSet(PlayerSide.SECOND);
+        } else if(firstPlayerWin==6 && secondPlayerWin==6){
+            tieBreak = true;
+        } else if(firstPlayerWin==7 || secondPlayerWin==7){
+            if (firstPlayerWin == 7) {
+                finishSet(PlayerSide.FIRST);
+            } else {
+                finishSet(PlayerSide.SECOND);
+            }
         }
-        else{
-            return false;
-        }
+
+    }
+
+    private void finishSet(PlayerSide player){
+        winner = player;
+        isFinished = true;
     }
 
     Score getScore(PlayerSide player){

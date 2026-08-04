@@ -65,7 +65,7 @@ public class Game {
         }
     }
 
-    PlayerSide opponent(PlayerSide side) {
+    private PlayerSide opponent(PlayerSide side) {
        return side == FIRST ? SECOND : FIRST;
     }
 
