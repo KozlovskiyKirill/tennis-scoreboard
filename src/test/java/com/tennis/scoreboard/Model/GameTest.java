@@ -65,7 +65,7 @@ class GameTest {
         assertEquals(0, game.getSecondPlayerTieBreakPoints());
     }
 
-    /* ---------- A. INITIAL STATE ---------- */
+    /* ----------  INITIAL STATE ---------- */
     @Test
     void newGameStartsAtLoveLove() {
         Game game = regularGame();
@@ -75,7 +75,7 @@ class GameTest {
         assertFalse(game.isFinished());
     }
 
-    /* ---------- B. getScore(PlayerSide) ---------- */
+    /* ----------  getScore(PlayerSide) ---------- */
     @Test
     void getScoreReturnsCorrectPlayer() {
         Game game = regularGame();
@@ -133,7 +133,7 @@ class GameTest {
         assertNull(game.getWinner());
     }
 
-    /* ---------- C. ЯВНАЯ ПОБЕДА (40 против ниже) ---------- */
+    /* ----------  ЯВНАЯ ПОБЕДА (40 против ниже) ---------- */
     @Test
     void Forty_Plus_Love() {
         Game game = regularGame();
@@ -194,7 +194,7 @@ class GameTest {
         assertEquals(PlayerSide.SECOND, game.getWinner());
     }
 
-    /* ---------- D. ДЕУС (40-40) ---------- */
+    /* ----------  ДЕУС (40-40) ---------- */
     @Test
     void Forty_Forty() {
         Game game = regularGame();
@@ -205,7 +205,7 @@ class GameTest {
         assertEquals(Score.FORTY, game.getSecondPlayer());
     }
 
-    /* ---------- E. AD (после деуса) ---------- */
+    /* ----------  AD (после деуса) ---------- */
     @Test
     void FirstGetsAdvantage() {
         Game game = regularGame();
@@ -240,7 +240,7 @@ class GameTest {
         assertNull(game.getWinner());
     }
 
-    /* ---------- E. AD -> ПОБЕДА ---------- */
+    /* ----------  AD -> ПОБЕДА ---------- */
     @Test
     void AD_Plus_Win() {
         Game game = regularGame();
@@ -312,7 +312,7 @@ class GameTest {
         assertEquals(PlayerSide.SECOND, game.getWinner());
     }
 
-    /* ---------- G. ОЧКИ ПОСЛЕ ОКОНЧАНИЯ ИГРЫ ---------- */
+    /* ----------  ОЧКИ ПОСЛЕ ОКОНЧАНИЯ ИГРЫ ---------- */
     @Test
     void pointsIgnoredAfterGameFinished() {
         Game game = regularGame();
@@ -418,7 +418,7 @@ class GameTest {
         assertTrue(game.isFinished());
     }
 
-    /* ---------- L. НЕЗАВИСИМОСТЬ ОБЪЕКТОВ ---------- */
+    /* ----------  НЕЗАВИСИМОСТЬ ОБЪЕКТОВ ---------- */
     @Test
     void twoGamesAreIndependent() {
         Game g1 = regularGame();

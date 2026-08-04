@@ -28,6 +28,7 @@ public class Match {
     private Player winner;
 
     public Match(Player player1, Player player2){
+        if(player1 == player2) throw new IllegalArgumentException("Players must be different");
         _player1 = player1;
         _player2 = player2;
     }
@@ -39,7 +40,10 @@ public class Match {
     private int firstPlayerSetWin = 0;
     private int secondPlayerSetWin = 0;
 
+    private boolean isFinished = false;
+
     public void addPoints(PlayerSide player){
+        if(isFinished) return;
         if(currentSet==null){
             // здесь проверка на кол-во сетов
             currentSet = new TennisSet();
@@ -47,19 +51,21 @@ public class Match {
         currentSet.addPoints(player);
         if(currentSet.isFinished()){
             ++setCount;
-
+            if(PlayerSide.FIRST==currentSet.getWinner()) ++firstPlayerSetWin;
+            else ++secondPlayerSetWin;
+            handleWithFinishing();
             currentSet=null;
         }
     }
+    private void handleWithFinishing(){
+        if(firstPlayerSetWin==2 && secondPlayerSetWin<=1) finishMatch(_player1);
+        else if(secondPlayerSetWin==2 && firstPlayerSetWin<=1) finishMatch(_player2);
 
-    public boolean isFinished(){
-        // упрощенный вариант, доработать
-        if(setCount==3){
-            if(firstPlayerSetWin>secondPlayerSetWin) winner = _player1;
-            else winner = _player2;
-            return true;
-        }
-        else return false;
+    }
+
+    private void finishMatch(Player player){
+        winner = player;
+        isFinished = true;
     }
 
     public Score getScore(PlayerSide player){

@@ -1,13 +1,13 @@
 package com.tennis.scoreboard.Model;
 
 import com.tennis.scoreboard.Enums.PlayerSide;
-import lombok.experimental.Helper;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SetTest {
 
+    /* ---------- HELPERS ---------- */
     private void finishGame(TennisSet set, PlayerSide winner) {
         for (int i = 0; i < 4; i++) {
             set.addPoints(winner);
@@ -40,6 +40,7 @@ public class SetTest {
         }
     }
 
+    /* ---------- ПРОСТОЙ ВЫИГРЫШ ПЕРВОГО ИГРОКА (1-6 ИГР) ---------- */
     @Test
     void firstWinsOne(){
         TennisSet set = new TennisSet();
@@ -100,6 +101,7 @@ public class SetTest {
         assertEquals(PlayerSide.FIRST,set.getWinner());
     }
 
+    /* ---------- ПРОСТОЙ ВЫИГРЫШ ВТОРОГО ИГРОКА (1-6 ИГР) ---------- */
     @Test
     void secondWinsOne(){
         TennisSet set = new TennisSet();
@@ -159,8 +161,8 @@ public class SetTest {
         assertTrue(set.isFinished());
         assertEquals(PlayerSide.SECOND,set.getWinner());
     }
-    // определение победителя
-    // / уверенная победа
+
+    /* ---------- ОПРЕДЕЛЕНИЕ ПОБЕДИТЕЛЯ ---------- */
     @Test
     void firstWinsWithDifference(){
         TennisSet set = new TennisSet();
@@ -184,7 +186,8 @@ public class SetTest {
         assertTrue(set.isFinished());
         assertEquals(PlayerSide.SECOND,set.getWinner());
     }
-    // / нужен tie-break
+
+    /* ---------- СЧИТЫВАНИЕ НИЧЬИ (6-6) ---------- */
     @Test
     void five_six(){
         TennisSet set = new TennisSet();
@@ -208,7 +211,7 @@ public class SetTest {
         assertFalse(set.isFinished());
         assertNull(set.getWinner());
     }
-    // ничья (tie-break)
+
     @Test
     void seven_five(){
         TennisSet set = new TennisSet();
@@ -233,9 +236,8 @@ public class SetTest {
         assertTrue(set.isFinished());
         assertEquals(PlayerSide.SECOND, set.getWinner());
     }
-    // при тай-бреке считать очки
 
-    // / когда сет создаёт простую игру vs тай-брейк
+    /* ---------- ТАЙ-БРЕЙК ---------- */
     @Test
     void regularGameBeforeSixSix(){
         TennisSet set = new TennisSet();
@@ -263,7 +265,7 @@ public class SetTest {
         assertNull(set.getWinner());
     }
 
-    // / победа через тай-брейк (сет всегда заканчивается 7-6)
+    /* ---------- ПОБЕДА ЧЕРЕЗ ТАЙ-БРЕЙК ---------- */
     @Test
     void firstWinsSetAfterTieBreak(){
         TennisSet set = new TennisSet();
@@ -297,6 +299,7 @@ public class SetTest {
         assertEquals(6, set.getSecondPlayerWin());
     }
 
+    /* ---------- ОЧКИ ПОСЛЕ ОКОНЧАНИЯ СЕТА ---------- */
     @Test
     void pointsIgnoredAfterSetFinishedByTieBreak(){
         TennisSet set = new TennisSet();
@@ -310,5 +313,4 @@ public class SetTest {
         assertEquals(PlayerSide.FIRST, set.getWinner());
         assertTrue(set.isFinished());
     }
-
 }
