@@ -1,3 +1,3 @@
 package com.tennis.scoreboard.DTO;
 
-public record PlayerScore(String name, int points, int games, int sets, Integer tieBreakPoints) { }
+public record PlayerScore(String name, String points, int games, int sets, Integer tieBreakPoints) { }

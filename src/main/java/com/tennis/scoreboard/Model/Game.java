@@ -118,4 +118,11 @@ public class Game {
         }
     }
 
+    Integer getTieBreakPoints(PlayerSide player){
+        if(player== FIRST){
+            return firstPlayerTieBreakPoints == 0 ? null : firstPlayerTieBreakPoints;
+        }
+        else return secondPlayerTieBreakPoints == 0 ? null : secondPlayerTieBreakPoints;
+    }
+
 }

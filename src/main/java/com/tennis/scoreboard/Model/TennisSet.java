@@ -50,7 +50,8 @@ public class TennisSet {
             finishSet(PlayerSide.FIRST);
         } else if(secondPlayerWin==6 && firstPlayerWin<=4){
             finishSet(PlayerSide.SECOND);
-        } else if(firstPlayerWin==6 && secondPlayerWin==6){
+        } else if((firstPlayerWin==6 && (secondPlayerWin==6 ||secondPlayerWin==5)||
+                (secondPlayerWin==6 && (firstPlayerWin==6 ||firstPlayerWin==5)))){
             tieBreak = true;
         } else if(firstPlayerWin==7 || secondPlayerWin==7){
             if (firstPlayerWin == 7) {
@@ -72,5 +73,9 @@ public class TennisSet {
     }
     int getGames(PlayerSide player){
         return player==PlayerSide.FIRST ? firstPlayerWin:secondPlayerWin;
+    }
+
+    Integer getTieBreakPoints(PlayerSide player){
+        return currentGame==null ? null : currentGame.getTieBreakPoints(player);
     }
 }

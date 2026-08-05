@@ -75,6 +75,9 @@ public class Match {
     public int getSets(PlayerSide player){
         return player==PlayerSide.FIRST ? firstPlayerSetWin:secondPlayerSetWin;
     }
+    public Integer getTieBreakPoints(PlayerSide player){
+        return currentSet==null ? null : currentSet.getTieBreakPoints(player);
+    }
 
 
 }
