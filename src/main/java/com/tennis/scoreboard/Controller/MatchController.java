@@ -4,8 +4,10 @@ package com.tennis.scoreboard.Controller;
 import com.tennis.scoreboard.DTO.AddPointsToPlayer;
 import com.tennis.scoreboard.DTO.CreateMatchRequest;
 import com.tennis.scoreboard.DTO.ScoreResponse;
+import com.tennis.scoreboard.Model.Match;
 import com.tennis.scoreboard.Service.CalculateScoreService;
 import com.tennis.scoreboard.Service.MatchService;
+import com.tennis.scoreboard.Service.OnGoingMatches;
 
 import java.util.Map;
 import java.util.UUID;
@@ -22,10 +24,12 @@ public class MatchController {
 
     private final MatchService _matchService;
     private final CalculateScoreService _scoreService;
+    private final OnGoingMatches _onGoingMatches;
 
-    public MatchController(MatchService matchService, CalculateScoreService scoreService){
+    public MatchController(MatchService matchService, CalculateScoreService scoreService, OnGoingMatches onGoingMatches){
         _matchService = matchService;
         _scoreService = scoreService;
+        _onGoingMatches = onGoingMatches;
     }
 
     @PostMapping
@@ -39,6 +43,17 @@ public class MatchController {
         String name = request.Player();
         ScoreResponse response = _scoreService.addPoints(uuid,name);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{uuid}")
+    public ResponseEntity<?> addPoints(@PathVariable UUID uuid){
+        Match match = _onGoingMatches.find(uuid);
+        if(match==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        ScoreResponse response = _scoreService.receiveMatchStatistics(match);
+        return ResponseEntity.ok(response);
+
     }
 
 }

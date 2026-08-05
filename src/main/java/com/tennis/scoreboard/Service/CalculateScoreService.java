@@ -33,6 +33,10 @@ public class CalculateScoreService {
         return gatherStatistics(match);
     }
 
+    public ScoreResponse receiveMatchStatistics (Match match){
+        return gatherStatistics(match);
+    }
+
     private ScoreResponse gatherStatistics(Match match){
         // пока для простоты tieBreak будет null
         PlayerScore firstPlayer = new PlayerScore(match.get_player1().getName(),
@@ -41,7 +45,9 @@ public class CalculateScoreService {
         PlayerScore secondPlayer = new PlayerScore(match.get_player2().getName(),
                 mapScore(match.getScore(PlayerSide.SECOND)),match.getGames(PlayerSide.SECOND),
                 match.getSets(PlayerSide.SECOND),null);
-        return new ScoreResponse(firstPlayer,secondPlayer,null);
+        Player winner = match.getWinner();
+        String winnerName = winner != null ? winner.getName() : null;
+        return new ScoreResponse(firstPlayer, secondPlayer, winnerName);
     }
 
     private int mapScore(Score score){

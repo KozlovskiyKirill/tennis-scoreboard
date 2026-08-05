@@ -19,7 +19,7 @@ public class TennisSet {
 
     private boolean isFinished = false;
 
-    // поля для подсчета очков тайбрейка+тесты внизу доделать
+
     private boolean tieBreak = false;
 
 
@@ -68,10 +68,9 @@ public class TennisSet {
     }
 
     Score getScore(PlayerSide player){
-        return currentGame.getScore(player);
+        return currentGame==null ? Score.LOVE : currentGame.getScore(player);
     }
     int getGames(PlayerSide player){
-        if(player==PlayerSide.FIRST) return firstPlayerWin;
-        else return secondPlayerWin;
+        return player==PlayerSide.FIRST ? firstPlayerWin:secondPlayerWin;
     }
 }

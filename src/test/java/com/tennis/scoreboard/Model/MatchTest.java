@@ -279,31 +279,35 @@ public class MatchTest {
         assertNull(match.getWinner());
     }
 
-    /* ---------- ОШИБКИ: NPE ПРИ ОТСУТСТВИИ ТЕКУЩЕГО СЕТА ---------- */
+    /* ---------- ГЕТТЕРЫ: ДЕФОЛТНЫЕ ЗНАЧЕНИЯ БЕЗ ТЕКУЩЕГО СЕТА ---------- */
     @Test
-    void getScoreThrowsWhenNoPointsPlayed() {
+    void getScoreReturnsLoveWhenNoPointsPlayed() {
         Match match = createMatch();
-        assertThrows(NullPointerException.class, () -> match.getScore(PlayerSide.FIRST));
+        assertEquals(Score.LOVE, match.getScore(PlayerSide.FIRST));
+        assertEquals(Score.LOVE, match.getScore(PlayerSide.SECOND));
     }
 
     @Test
-    void getGamesThrowsWhenNoPointsPlayed() {
+    void getGamesReturnsZeroWhenNoPointsPlayed() {
         Match match = createMatch();
-        assertThrows(NullPointerException.class, () -> match.getGames(PlayerSide.FIRST));
+        assertEquals(0, match.getGames(PlayerSide.FIRST));
+        assertEquals(0, match.getGames(PlayerSide.SECOND));
     }
 
     @Test
-    void getScoreThrowsBetweenSets() {
+    void getScoreReturnsLoveBetweenSets() {
         Match match = createMatch();
         winSet(match, PlayerSide.FIRST);
-        assertThrows(NullPointerException.class, () -> match.getScore(PlayerSide.FIRST));
+        assertEquals(Score.LOVE, match.getScore(PlayerSide.FIRST));
+        assertEquals(Score.LOVE, match.getScore(PlayerSide.SECOND));
     }
 
     @Test
-    void getGamesThrowsBetweenSets() {
+    void getGamesReturnsZeroBetweenSets() {
         Match match = createMatch();
         winSet(match, PlayerSide.FIRST);
-        assertThrows(NullPointerException.class, () -> match.getGames(PlayerSide.FIRST));
+        assertEquals(0, match.getGames(PlayerSide.FIRST));
+        assertEquals(0, match.getGames(PlayerSide.SECOND));
     }
 
     /* ---------- ПРОВЕРКА ИМЁН ИГРОКОВ ---------- */

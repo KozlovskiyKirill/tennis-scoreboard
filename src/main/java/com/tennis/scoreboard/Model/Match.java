@@ -54,7 +54,7 @@ public class Match {
             if(PlayerSide.FIRST==currentSet.getWinner()) ++firstPlayerSetWin;
             else ++secondPlayerSetWin;
             handleWithFinishing();
-            currentSet=null;
+            currentSet = null;
         }
     }
     private void handleWithFinishing(){
@@ -68,15 +68,12 @@ public class Match {
         isFinished = true;
     }
 
-    public Score getScore(PlayerSide player){
-        return currentSet.getScore(player);
-    }
+    public Score getScore(PlayerSide player){return currentSet == null ? Score.LOVE : currentSet.getScore(player);}
     public int getGames(PlayerSide player){
-        return currentSet.getGames(player);
+        return currentSet == null ? 0 : currentSet.getGames(player);
     }
     public int getSets(PlayerSide player){
-        if(player==PlayerSide.FIRST) return firstPlayerSetWin;
-        else return secondPlayerSetWin;
+        return player==PlayerSide.FIRST ? firstPlayerSetWin:secondPlayerSetWin;
     }
 
 
