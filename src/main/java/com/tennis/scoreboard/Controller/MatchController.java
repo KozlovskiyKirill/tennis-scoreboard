@@ -3,15 +3,18 @@ package com.tennis.scoreboard.Controller;
 
 import com.tennis.scoreboard.DTO.AddPointsToPlayer;
 import com.tennis.scoreboard.DTO.CreateMatchRequest;
+import com.tennis.scoreboard.DTO.FinishedMatch;
 import com.tennis.scoreboard.DTO.ScoreResponse;
 import com.tennis.scoreboard.Model.Match;
 import com.tennis.scoreboard.Service.CalculateScoreService;
 import com.tennis.scoreboard.Service.MatchService;
 import com.tennis.scoreboard.Service.OnGoingMatches;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.tennis.scoreboard.Service.SaveMatch;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,7 +29,8 @@ public class MatchController {
     private final CalculateScoreService _scoreService;
     private final OnGoingMatches _onGoingMatches;
 
-    public MatchController(MatchService matchService, CalculateScoreService scoreService, OnGoingMatches onGoingMatches){
+    public MatchController(MatchService matchService, CalculateScoreService scoreService,
+                           OnGoingMatches onGoingMatches){
         _matchService = matchService;
         _scoreService = scoreService;
         _onGoingMatches = onGoingMatches;
@@ -46,7 +50,7 @@ public class MatchController {
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<?> addPoints(@PathVariable UUID uuid){
+    public ResponseEntity<?> receiveStatistics(@PathVariable UUID uuid){
         Match match = _onGoingMatches.find(uuid);
         if(match==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -54,6 +58,12 @@ public class MatchController {
         ScoreResponse response = _scoreService.receiveMatchStatistics(match);
         return ResponseEntity.ok(response);
 
+    }
+
+    @GetMapping
+    public ResponseEntity<?> finishedMatches(){
+        List<FinishedMatch>matches = _matchService.receiveFinishedMatches();
+        return ResponseEntity.ok(Map.of("matches:",matches));
     }
 
 }

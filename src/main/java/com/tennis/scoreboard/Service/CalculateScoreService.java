@@ -13,9 +13,11 @@ import java.util.UUID;
 @Service
 public class CalculateScoreService {
     private final OnGoingMatches onGoingMatches;
+    private final SaveMatch saveMatch;
 
-    public CalculateScoreService(OnGoingMatches match){
+    public CalculateScoreService(OnGoingMatches match, SaveMatch saveMatch){
         onGoingMatches = match;
+        this.saveMatch = saveMatch;
     }
 
     public ScoreResponse addPoints(UUID uuid, String player){
@@ -24,18 +26,19 @@ public class CalculateScoreService {
         // валидация имени
         Player player1 = match.get_player1();
         if(player1.getName().equals(player)){
-            System.out.println("Зашел за первым игроком");
             match.addPoints(PlayerSide.FIRST);}
         else{
-            System.out.println("Зашел за вторым игроком");
             match.addPoints(PlayerSide.SECOND);
         }
+
+        saveMatch.saveMatch(match);
         return gatherStatistics(match);
     }
 
     public ScoreResponse receiveMatchStatistics (Match match){
         return gatherStatistics(match);
     }
+
 
     private ScoreResponse gatherStatistics(Match match){
         PlayerScore firstPlayer = new PlayerScore(match.get_player1().getName(),

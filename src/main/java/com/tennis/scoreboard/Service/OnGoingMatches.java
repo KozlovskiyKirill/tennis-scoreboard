@@ -12,7 +12,7 @@ public class OnGoingMatches {
 
     Map<UUID, Match> matches = new HashMap<>();
 
-    public UUID put(Match match){
+    UUID put(Match match){
         UUID uuid = UUID.randomUUID();
         matches.put(uuid,match);
         return uuid;
@@ -21,4 +21,5 @@ public class OnGoingMatches {
     public Match find(UUID uuid){
         return matches.getOrDefault(uuid, null);
     }
+    void delete(Match match) {matches.remove(match);}
 }
