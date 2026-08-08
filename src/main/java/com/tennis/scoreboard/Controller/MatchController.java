@@ -66,4 +66,11 @@ public class MatchController {
         return ResponseEntity.ok(Map.of("matches:",matches));
     }
 
+    @GetMapping(params = "playerName")
+    public ResponseEntity<?> findPlayerMatches(@RequestParam String playerName){
+        List<FinishedMatch>matches = _matchService.receiveFinishedMatchesByName(playerName);
+        return ResponseEntity.ok(matches);
+    }
+
 }
+

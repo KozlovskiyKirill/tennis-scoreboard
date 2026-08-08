@@ -44,4 +44,14 @@ public class MatchService {
         }
         return finalMatches;
     }
+
+    public List<FinishedMatch> receiveFinishedMatchesByName(String name){
+        List<Match> matches =matchRepository.findByName(name);
+        List<FinishedMatch> finalMatches = new ArrayList<>();
+        for(Match match :matches){
+            finalMatches.add(new FinishedMatch(match.get_player1().getName(),match.get_player2().getName(),
+                    match.getWinner().getName()));
+        }
+        return finalMatches;
+    }
 }
