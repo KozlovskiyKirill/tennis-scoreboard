@@ -1,20 +1,20 @@
 package com.tennis.scoreboard.Controller;
 
 
-import com.tennis.scoreboard.DTO.AddPointsToPlayer;
-import com.tennis.scoreboard.DTO.CreateMatchRequest;
-import com.tennis.scoreboard.DTO.FinishedMatch;
-import com.tennis.scoreboard.DTO.ScoreResponse;
+import com.tennis.scoreboard.DTO.*;
 import com.tennis.scoreboard.Model.Match;
 import com.tennis.scoreboard.Service.CalculateScoreService;
 import com.tennis.scoreboard.Service.MatchService;
 import com.tennis.scoreboard.Service.OnGoingMatches;
 
+import org.springframework.data.domain.Pageable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import com.tennis.scoreboard.Service.SaveMatch;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -61,15 +61,20 @@ public class MatchController {
     }
 
     @GetMapping
-    public ResponseEntity<?> finishedMatches(){
-        List<FinishedMatch>matches = _matchService.receiveFinishedMatches();
-        return ResponseEntity.ok(Map.of("matches:",matches));
-    }
+    public ResponseEntity<?> finishedMatches(
+            @RequestParam(required = false) String playerName,
+            @RequestParam(required = false, defaultValue = "0") Integer page
+    ){
+        MatchPage matches;
+        Pageable pageable = PageRequest.of(page, 10);
+        if (playerName==null) {
+            matches = _matchService.receiveFinishedMatches(pageable);
 
-    @GetMapping(params = "playerName")
-    public ResponseEntity<?> findPlayerMatches(@RequestParam String playerName){
-        List<FinishedMatch>matches = _matchService.receiveFinishedMatchesByName(playerName);
-        return ResponseEntity.ok(matches);
+        }
+        else {
+            matches = _matchService.receiveFinishedMatchesByName(playerName, pageable);
+        }
+        return ResponseEntity.ok(Map.of("matches:",matches));
     }
 
 }
