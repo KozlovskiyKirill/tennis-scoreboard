@@ -4,36 +4,22 @@ import com.tennis.scoreboard.Enums.PlayerSide;
 import com.tennis.scoreboard.Enums.Score;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Entity
+
 @Getter
-@Table (name = "Matches")
-@NoArgsConstructor
 public class Match {
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Integer ID;
 
-    @ManyToOne
-    @JoinColumn(name="player1_id")
-    private Player _player1;
-
-    @ManyToOne
-    @JoinColumn(name="player2_id")
-    private Player _player2;
-
-    @ManyToOne
-    @JoinColumn(name="winner_id")
+    private final Player _player1;
+    private final Player _player2;
     private Player winner;
 
     public Match(Player player1, Player player2){
-        if(player1 == player2) throw new IllegalArgumentException("Players must be different");
+        if(player1 == null || player2==null) throw new IllegalArgumentException("Players are empty");
+        if(player1.name().equals(player2.name())) throw new IllegalArgumentException("Players must be different");
         _player1 = player1;
         _player2 = player2;
     }
 
-    @Transient
     private TennisSet currentSet;
     private int setCount = 0;
 
@@ -44,8 +30,8 @@ public class Match {
 
     public void addPoints(PlayerSide player){
         if(isFinished) return;
+        if(player==null) throw new IllegalArgumentException("No player to add points");
         if(currentSet==null){
-            // здесь проверка на кол-во сетов
             currentSet = new TennisSet();
         }
         currentSet.addPoints(player);

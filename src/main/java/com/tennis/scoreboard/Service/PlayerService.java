@@ -1,10 +1,8 @@
 package com.tennis.scoreboard.Service;
 
-import com.tennis.scoreboard.Model.Player;
+import com.tennis.scoreboard.Entity.PlayerEntity;
 import com.tennis.scoreboard.Repository.PlayerRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class PlayerService {
@@ -15,7 +13,7 @@ public class PlayerService {
         this.playerRepository = playerRepository;
     }
 
-    public Player findOrCreate(String name){
-        return playerRepository.findByName(name).orElseGet(()->playerRepository.save(new Player(name)));
+    public PlayerEntity findOrCreate(String name){
+        return playerRepository.findByName(name).orElseGet(()->playerRepository.save(new PlayerEntity(name)));
     }
 }

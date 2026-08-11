@@ -25,7 +25,7 @@ public class CalculateScoreService {
         // валидация матча
         // валидация имени
         Player player1 = match.get_player1();
-        if(player1.getName().equals(player)){
+        if(player1.name().equals(player)){
             match.addPoints(PlayerSide.FIRST);}
         else{
             match.addPoints(PlayerSide.SECOND);
@@ -41,14 +41,14 @@ public class CalculateScoreService {
 
 
     private ScoreResponse gatherStatistics(Match match){
-        PlayerScore firstPlayer = new PlayerScore(match.get_player1().getName(),
+        PlayerScore firstPlayer = new PlayerScore(match.get_player1().name(),
                 mapScore(match.getScore(PlayerSide.FIRST)),match.getGames(PlayerSide.FIRST),
                 match.getSets(PlayerSide.FIRST),match.getTieBreakPoints(PlayerSide.FIRST));
-        PlayerScore secondPlayer = new PlayerScore(match.get_player2().getName(),
+        PlayerScore secondPlayer = new PlayerScore(match.get_player2().name(),
                 mapScore(match.getScore(PlayerSide.SECOND)),match.getGames(PlayerSide.SECOND),
                 match.getSets(PlayerSide.SECOND),match.getTieBreakPoints(PlayerSide.SECOND));
         Player winner = match.getWinner();
-        String winnerName = winner != null ? winner.getName() : null;
+        String winnerName = winner != null ? winner.name() : null;
         return new ScoreResponse(firstPlayer, secondPlayer, winnerName);
     }
 

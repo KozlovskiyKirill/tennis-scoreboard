@@ -3,6 +3,8 @@ package com.tennis.scoreboard.Service;
 import com.tennis.scoreboard.DTO.CreateMatchRequest;
 import com.tennis.scoreboard.DTO.FinishedMatch;
 import com.tennis.scoreboard.DTO.MatchPage;
+import com.tennis.scoreboard.Entity.MatchEntity;
+import com.tennis.scoreboard.Entity.PlayerEntity;
 import com.tennis.scoreboard.Model.Match;
 import com.tennis.scoreboard.Model.Player;
 import com.tennis.scoreboard.Repository.MatchRepository;
@@ -11,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,26 +32,26 @@ public class MatchService {
         String firstPlayer = response.firstPlayer();
         String secondPlayer = response.secondPlayer();
 
-        Player fPlayer = playerService.findOrCreate(firstPlayer);
-        Player sPlayer = playerService.findOrCreate(secondPlayer);
+        PlayerEntity fPlayer = playerService.findOrCreate(firstPlayer);
+        PlayerEntity sPlayer = playerService.findOrCreate(secondPlayer);
 
-        Match match = new Match(fPlayer,sPlayer);
+        Match match = new Match(new Player(fPlayer.getName()),new Player(sPlayer.getName()));
 
         return onGoingMatches.put(match);
     }
 
     public MatchPage receiveFinishedMatches(Pageable pageable){
-        Page<Match> matches= matchRepository.findAll(pageable);
+        Page<MatchEntity> matches= matchRepository.findAll(pageable);
         List<FinishedMatch> finalMatches = matches.getContent().stream().map(m->
-                new FinishedMatch(m.get_player1().getName(),m.get_player2().getName(),m.getWinner().getName())).
+                new FinishedMatch(m.get_player1().getName(),m.get_player2().getName(),m.get_winner().getName())).
                 toList();
         return new MatchPage(finalMatches,matches.getNumber(),matches.getTotalPages());
     }
 
     public MatchPage receiveFinishedMatchesByName(String name, Pageable pageable){
-        Page<Match> matches =matchRepository.findByName(name, pageable);
+        Page<MatchEntity> matches =matchRepository.findByName(name, pageable);
         List<FinishedMatch> finalMatches = matches.getContent().stream().map(m->
-                new FinishedMatch(m.get_player1().getName(),m.get_player2().getName(),m.getWinner().getName()))
+                new FinishedMatch(m.get_player1().getName(),m.get_player2().getName(),m.get_winner().getName()))
                 .toList();
         return new MatchPage(finalMatches,matches.getNumber(),matches.getTotalPages());
 
