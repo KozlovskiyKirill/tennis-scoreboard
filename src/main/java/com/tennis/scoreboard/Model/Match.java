@@ -2,7 +2,6 @@ package com.tennis.scoreboard.Model;
 
 import com.tennis.scoreboard.Enums.PlayerSide;
 import com.tennis.scoreboard.Enums.Score;
-import jakarta.persistence.*;
 import lombok.Getter;
 
 

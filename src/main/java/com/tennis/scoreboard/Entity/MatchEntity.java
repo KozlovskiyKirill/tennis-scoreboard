@@ -1,6 +1,5 @@
 package com.tennis.scoreboard.Entity;
 
-import com.tennis.scoreboard.Model.Player;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +26,10 @@ public class MatchEntity {
     private PlayerEntity _winner;
 
     public MatchEntity(PlayerEntity firstPlayer, PlayerEntity secondPlayer, PlayerEntity winner){
+        if(firstPlayer == null || secondPlayer == null || winner == null)
+            throw new IllegalArgumentException("Players must not be null");
+        if (firstPlayer.getName().equals(secondPlayer.getName()))
+            throw new IllegalArgumentException("Players must be different");
         _player1 = firstPlayer;
         _player2 = secondPlayer;
         _winner = winner;

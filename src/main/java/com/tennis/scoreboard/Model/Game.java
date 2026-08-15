@@ -4,36 +4,22 @@ import com.tennis.scoreboard.Enums.PlayerSide;
 import com.tennis.scoreboard.Enums.Score;
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import static com.tennis.scoreboard.Enums.PlayerSide.FIRST;
 import static com.tennis.scoreboard.Enums.PlayerSide.SECOND;
 import static com.tennis.scoreboard.Enums.Score.*;
-@NoArgsConstructor
+
 @Getter(AccessLevel.PACKAGE)
-public class Game {
+public class Game implements Playable {
     private Score firstPlayer = LOVE;
     private Score secondPlayer = LOVE;
 
     private PlayerSide winner = null;
-
     private boolean isFinished = false;
 
-    private boolean isTieBreak = false;
-    private boolean isTieBreakFinished = false;
-
-
-    public Game(boolean isTieBreak){
-        this.isTieBreak = isTieBreak;
-    }
-
-    void addPoints(PlayerSide player){
-        if (isFinished ) return;
-        if (isTieBreak) {
-            if (!isTieBreakFinished) addTieBreakPoints(player);
-            return;
-        }
+    @Override
+    public void addPoints(PlayerSide player){
+        if (isFinished) return;
         Score own = scoreOf(player);
         Score opp = scoreOf(opponent(player));
 
@@ -42,6 +28,16 @@ public class Game {
         } else {
             setScore(player, addPoints(own));
         }
+    }
+
+    @Override
+    public boolean isFinished(){
+        return isFinished;
+    }
+
+    @Override
+    public PlayerSide getWinner(){
+        return winner;
     }
 
     private Score scoreOf(PlayerSide player) {
@@ -74,11 +70,6 @@ public class Game {
         winner = player;
     }
 
-
-    boolean isFinished(){
-        return isTieBreak ? isTieBreakFinished : isFinished;
-    }
-
     private Score addPoints(Score score){
         return switch(score){
             case LOVE -> FIFTEEN;
@@ -92,37 +83,4 @@ public class Game {
         if(player== FIRST) return firstPlayer;
         else return secondPlayer;
     }
-    // метод для tie-break и поля для него
-    private Integer firstPlayerTieBreakPoints = 0;
-    private Integer secondPlayerTieBreakPoints = 0;
-
-    private void addTieBreakPoints(PlayerSide player){
-        firstPlayer = null;
-        secondPlayer = null;
-        if(player== FIRST){
-            ++firstPlayerTieBreakPoints;
-            isTieBreakFinished();
-        }
-        else ++secondPlayerTieBreakPoints;
-        isTieBreakFinished();
-    }
-
-    private void isTieBreakFinished(){
-        if(firstPlayerTieBreakPoints-secondPlayerTieBreakPoints>=2 && firstPlayerTieBreakPoints>=7){
-            winner = FIRST;
-            isTieBreakFinished = true;
-        }
-        else if(secondPlayerTieBreakPoints-firstPlayerTieBreakPoints>=2 && secondPlayerTieBreakPoints>=7){
-            winner = SECOND;
-            isTieBreakFinished = true;
-        }
-    }
-
-    Integer getTieBreakPoints(PlayerSide player){
-        if(player== FIRST){
-            return firstPlayerTieBreakPoints == 0 ? null : firstPlayerTieBreakPoints;
-        }
-        else return secondPlayerTieBreakPoints == 0 ? null : secondPlayerTieBreakPoints;
-    }
-
 }

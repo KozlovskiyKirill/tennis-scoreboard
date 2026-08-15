@@ -2,6 +2,7 @@ package com.tennis.scoreboard.Controller;
 
 
 import com.tennis.scoreboard.DTO.*;
+import com.tennis.scoreboard.Exception.MatchNotFoundException;
 import com.tennis.scoreboard.Model.Match;
 import com.tennis.scoreboard.Service.CalculateScoreService;
 import com.tennis.scoreboard.Service.MatchService;
@@ -53,7 +54,7 @@ public class MatchController {
     public ResponseEntity<?> receiveStatistics(@PathVariable UUID uuid){
         Match match = _onGoingMatches.find(uuid);
         if(match==null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw  new MatchNotFoundException("Матч с таким uuid не найден");
         }
         ScoreResponse response = _scoreService.receiveMatchStatistics(match);
         return ResponseEntity.ok(response);

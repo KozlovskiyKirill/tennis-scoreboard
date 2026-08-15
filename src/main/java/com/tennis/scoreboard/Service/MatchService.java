@@ -32,12 +32,25 @@ public class MatchService {
         String firstPlayer = response.firstPlayer();
         String secondPlayer = response.secondPlayer();
 
+        checkPlayersNames(firstPlayer, secondPlayer);
+
         PlayerEntity fPlayer = playerService.findOrCreate(firstPlayer);
         PlayerEntity sPlayer = playerService.findOrCreate(secondPlayer);
 
         Match match = new Match(new Player(fPlayer.getName()),new Player(sPlayer.getName()));
 
         return onGoingMatches.put(match);
+    }
+    private void checkPlayersNames(String firstPlayer, String secondPlayer){
+        if (firstPlayer == null || firstPlayer.isBlank())
+            throw new IllegalArgumentException("Player 1 name must not be blank");
+        if(firstPlayer.length()>10)
+            throw new IllegalArgumentException("Player name 1 is too long");
+        if (secondPlayer == null || secondPlayer.isBlank())
+            throw new IllegalArgumentException("Player 2 name must not be blank");
+        if(secondPlayer.length()>10)
+            throw new IllegalArgumentException("Player name 2 is too long");
+        if (firstPlayer.equals(secondPlayer)) throw new IllegalArgumentException("Players has the same names");
     }
 
     public MatchPage receiveFinishedMatches(Pageable pageable){

@@ -1,5 +1,6 @@
 package com.tennis.scoreboard.Service;
 
+import com.tennis.scoreboard.Exception.MatchNotFoundException;
 import com.tennis.scoreboard.Model.Match;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ public class OnGoingMatches {
     Map<UUID, Match> matches = new HashMap<>();
 
     UUID put(Match match){
+        if(match==null) throw new MatchNotFoundException("Матч не может быть добавлен в текущие");
         UUID uuid = UUID.randomUUID();
         matches.put(uuid,match);
         return uuid;

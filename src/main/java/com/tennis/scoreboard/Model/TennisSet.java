@@ -5,11 +5,9 @@ import com.tennis.scoreboard.Enums.Score;
 import lombok.AccessLevel;
 import lombok.Getter;
 
-import jakarta.persistence.Transient;
-
 @Getter(AccessLevel.PACKAGE)
 public class TennisSet {
-    private Game currentGame;
+    private Playable currentGame;
     private int gameCount = 0;
 
     private int firstPlayerWin = 0;
@@ -19,20 +17,17 @@ public class TennisSet {
 
     private boolean isFinished = false;
 
-
     private boolean tieBreak = false;
 
 
     void addPoints(PlayerSide player){
         if(isFinished) return;
         if(currentGame==null){
-            if(tieBreak) currentGame = new Game(true);
-            else currentGame = new Game(false);
+            currentGame = tieBreak ? new TieBreak() : new Game();
         }
         currentGame.addPoints(player);
         if(currentGame.isFinished()){
             ++gameCount;
-            // обязательно сделать проверку на кол-во игр
             PlayerSide winner = currentGame.getWinner();
             if(winner==PlayerSide.FIRST) ++firstPlayerWin;
             else ++secondPlayerWin;
@@ -50,8 +45,7 @@ public class TennisSet {
             finishSet(PlayerSide.FIRST);
         } else if(secondPlayerWin==6 && firstPlayerWin<=4){
             finishSet(PlayerSide.SECOND);
-        } else if((firstPlayerWin==6 && (secondPlayerWin==6 ||secondPlayerWin==5)||
-                (secondPlayerWin==6 && (firstPlayerWin==6 ||firstPlayerWin==5)))){
+        } else if(firstPlayerWin==6 && secondPlayerWin==6){
             tieBreak = true;
         } else if(firstPlayerWin==7 || secondPlayerWin==7){
             if (firstPlayerWin == 7) {
@@ -69,13 +63,16 @@ public class TennisSet {
     }
 
     Score getScore(PlayerSide player){
-        return currentGame==null ? Score.LOVE : currentGame.getScore(player);
+        if(currentGame==null) return Score.LOVE;
+        if(currentGame instanceof Game game) return game.getScore(player);
+        return null;
     }
     int getGames(PlayerSide player){
         return player==PlayerSide.FIRST ? firstPlayerWin:secondPlayerWin;
     }
 
     Integer getTieBreakPoints(PlayerSide player){
-        return currentGame==null ? null : currentGame.getTieBreakPoints(player);
+        if(currentGame instanceof TieBreak tieBreak) return tieBreak.getPoints(player);
+        return null;
     }
 }

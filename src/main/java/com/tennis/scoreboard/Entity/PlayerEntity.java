@@ -14,13 +14,13 @@ public class PlayerEntity {
     private int ID;
 
     @Column(name = "Name", unique = true, length = 10, nullable = false)
-    private String Name;
+    private String name;
 
     public PlayerEntity (String name){
         if(name == null || name.isBlank())
             throw new IllegalArgumentException("Player name must not be blank");
         if(name.length() > 10)
             throw new IllegalArgumentException("Player name too long");
-        Name = name;
+        this.name = name;
     }
 }

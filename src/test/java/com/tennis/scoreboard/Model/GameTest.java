@@ -9,11 +9,7 @@ class GameTest {
 
     /* ---------- HELPERS ---------- */
     private Game regularGame() {
-        return new Game(false);
-    }
-
-    private Game tieBreakGame() {
-        return new Game(true);
+        return new Game();
     }
 
     private void nPoints(Game game, PlayerSide side, int n) {
@@ -25,44 +21,6 @@ class GameTest {
     private void bringToDeuce(Game game) {
         nPoints(game, PlayerSide.FIRST, 3);
         nPoints(game, PlayerSide.SECOND, 3);
-    }
-
-    /* ---------- РЕЖИМ: обычный или тай-брейк ---------- */
-    @Test
-    void regularGameOfficersRegularScoring() {
-        Game game = regularGame();
-        nPoints(game, PlayerSide.FIRST, 4);
-        assertTrue(game.isFinished());
-        assertEquals(PlayerSide.FIRST, game.getWinner());
-        assertEquals(0, game.getFirstPlayerTieBreakPoints());
-        assertEquals(0, game.getSecondPlayerTieBreakPoints());
-    }
-
-    @Test
-    void tieBreakGameOfficersTieBreakScoring() {
-        Game game = tieBreakGame();
-        nPoints(game, PlayerSide.FIRST, 7);
-        assertTrue(game.isFinished());
-        assertEquals(PlayerSide.FIRST, game.getWinner());
-        assertEquals(7, game.getFirstPlayerTieBreakPoints());
-        assertEquals(0, game.getSecondPlayerTieBreakPoints());
-    }
-
-    @Test
-    void tieBreakGameNullsRegularScore() {
-        Game game = tieBreakGame();
-        nPoints(game, PlayerSide.FIRST, 7);
-        assertNull(game.getFirstPlayer());
-        assertNull(game.getSecondPlayer());
-    }
-
-    @Test
-    void regularGameNeverReachesTieBreak() {
-        Game game = regularGame();
-        nPoints(game, PlayerSide.FIRST, 4);
-        assertTrue(game.isFinished());
-        assertEquals(0, game.getFirstPlayerTieBreakPoints());
-        assertEquals(0, game.getSecondPlayerTieBreakPoints());
     }
 
     /* ----------  INITIAL STATE ---------- */
@@ -326,98 +284,6 @@ class GameTest {
         assertEquals(PlayerSide.FIRST, game.getWinner());
         assertTrue(game.isFinished());
     }
-
-    /* ---------- ТАЙ-БРЕЙК ---------- */
-    @Test
-    void firstWinsTieBreak() {
-        Game game = tieBreakGame();
-        nPoints(game, PlayerSide.SECOND, 5);
-        nPoints(game, PlayerSide.FIRST, 7);
-        assertTrue(game.isFinished());
-        assertEquals(7, game.getFirstPlayerTieBreakPoints());
-        assertEquals(5, game.getSecondPlayerTieBreakPoints());
-        assertEquals(PlayerSide.FIRST, game.getWinner());
-    }
-
-    @Test
-    void secondWinsTieBreak() {
-        Game game = tieBreakGame();
-        nPoints(game, PlayerSide.FIRST, 5);
-        nPoints(game, PlayerSide.SECOND, 7);
-        assertTrue(game.isFinished());
-        assertEquals(5, game.getFirstPlayerTieBreakPoints());
-        assertEquals(7, game.getSecondPlayerTieBreakPoints());
-        assertEquals(PlayerSide.SECOND, game.getWinner());
-    }
-
-    @Test
-    void tieBreakSixSixNotFinished() {
-        Game game = tieBreakGame();
-        for (int i = 0; i < 6; i++) {
-            game.addPoints(PlayerSide.FIRST);
-            game.addPoints(PlayerSide.SECOND);
-        }
-        assertFalse(game.isFinished());
-        assertEquals(6, game.getFirstPlayerTieBreakPoints());
-        assertEquals(6, game.getSecondPlayerTieBreakPoints());
-        assertNull(game.getWinner());
-    }
-
-    @Test
-    void tieBreakSevenSixNotFinished() {
-        Game game = tieBreakGame();
-        for (int i = 0; i < 6; i++) {
-            game.addPoints(PlayerSide.FIRST);
-            game.addPoints(PlayerSide.SECOND);
-        }
-        game.addPoints(PlayerSide.FIRST); // 7-6
-        assertFalse(game.isFinished());
-        assertNull(game.getWinner());
-    }
-
-    @Test
-    void tieBreakSevenFiveFinished() {
-        Game game = tieBreakGame();
-        for (int i = 0; i < 5; i++) {
-            game.addPoints(PlayerSide.FIRST);
-            game.addPoints(PlayerSide.SECOND);
-        }
-        game.addPoints(PlayerSide.FIRST);
-        game.addPoints(PlayerSide.FIRST); // 7-5
-        assertTrue(game.isFinished());
-        assertEquals(PlayerSide.FIRST, game.getWinner());
-    }
-
-    @Test
-    void firstWinsTieBreakAfterDeuce() {
-        Game game = tieBreakGame();
-        for (int i = 0; i < 6; i++) {
-            game.addPoints(PlayerSide.FIRST);
-            game.addPoints(PlayerSide.SECOND);
-        }
-        game.addPoints(PlayerSide.FIRST); // 7-6
-        game.addPoints(PlayerSide.FIRST); // 8-6
-        assertTrue(game.isFinished());
-        assertEquals(8, game.getFirstPlayerTieBreakPoints());
-        assertEquals(6, game.getSecondPlayerTieBreakPoints());
-        assertEquals(PlayerSide.FIRST, game.getWinner());
-    }
-
-    @Test
-    void tieBreakPointsIgnoredAfterFinished() {
-        Game game = tieBreakGame();
-        nPoints(game, PlayerSide.FIRST, 5);
-        nPoints(game, PlayerSide.SECOND, 7);
-        assertTrue(game.isFinished());
-        assertEquals(PlayerSide.SECOND, game.getWinner());
-
-        game.addPoints(PlayerSide.FIRST);
-        game.addPoints(PlayerSide.FIRST);
-
-        assertEquals(PlayerSide.SECOND, game.getWinner());
-        assertTrue(game.isFinished());
-    }
-
     /* ----------  НЕЗАВИСИМОСТЬ ОБЪЕКТОВ ---------- */
     @Test
     void twoGamesAreIndependent() {

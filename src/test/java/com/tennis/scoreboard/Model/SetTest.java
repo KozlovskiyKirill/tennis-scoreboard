@@ -243,7 +243,7 @@ public class SetTest {
         TennisSet set = new TennisSet();
         set.addPoints(PlayerSide.FIRST);
         assertNotNull(set.getCurrentGame());
-        assertFalse(set.getCurrentGame().isTieBreak(), "до 6-6 сет должен создавать простую игру");
+        assertTrue(set.getCurrentGame() instanceof Game, "до 6-6 сет должен создавать простую игру");
         assertFalse(set.isFinished());
     }
 
@@ -253,7 +253,7 @@ public class SetTest {
         reachSixSix(set);
         set.addPoints(PlayerSide.FIRST);
         assertNotNull(set.getCurrentGame());
-        assertTrue(set.getCurrentGame().isTieBreak(), "после 6-6 сет должен создавать тай-брейк");
+        assertTrue(set.getCurrentGame() instanceof TieBreak, "после 6-6 сет должен создавать тай-брейк");
         assertFalse(set.isFinished());
     }
 

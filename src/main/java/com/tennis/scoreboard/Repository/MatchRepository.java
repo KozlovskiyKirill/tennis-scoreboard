@@ -9,11 +9,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.data.domain.Page;
-import java.util.List;
+
 
 @Repository
 public interface MatchRepository extends JpaRepository <MatchEntity, Integer> {
-    @Query("SELECT m FROM MatchEntity m WHERE m._player1.Name=:name OR m._player2.Name=:name")
+    @Query("SELECT m FROM MatchEntity m WHERE m._player1.name=:name OR m._player2.name=:name")
     Page<MatchEntity> findByName(@Param("name") String name, Pageable pageable);
     Page<MatchEntity> findAll(Pageable pageable);
 }
