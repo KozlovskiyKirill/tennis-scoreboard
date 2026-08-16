@@ -8,6 +8,7 @@ import com.tennis.scoreboard.Repository.PlayerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class SaveMatch {
@@ -21,12 +22,15 @@ public class SaveMatch {
         this.playerRepository = playerRepository;
     }
 
-    void saveMatch(Match match){
+    void saveMatch(UUID uuid, Match match){
         if(match.isFinished()){
-            onGoingMatches.delete(match);
-            PlayerEntity fplayer = playerRepository.findByName(match.get_player1().name()).orElseThrow();
-            PlayerEntity splayer = playerRepository.findByName(match.get_player2().name()).orElseThrow();
-            PlayerEntity winner = playerRepository.findByName(match.getWinner().name()).orElseThrow();
+            onGoingMatches.delete(uuid);
+            PlayerEntity fplayer = playerRepository.findByName(match.get_player1().name()).
+                    orElseThrow(()->new IllegalArgumentException("Игрок не найден в базе данных"));
+            PlayerEntity splayer = playerRepository.findByName(match.get_player2().name()).
+                    orElseThrow(()->new IllegalArgumentException("Игрок не найден в базе данных"));
+            PlayerEntity winner = playerRepository.findByName(match.getWinner().name()).
+                    orElseThrow(()->new IllegalArgumentException("Игрок не найден в базе данных"));
 
             if (!winner.equals(fplayer) && !winner.equals(splayer)) {
                 throw new IllegalArgumentException("Winner is not one of the players");

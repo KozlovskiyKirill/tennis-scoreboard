@@ -54,19 +54,17 @@ public class MatchService {
     }
 
     public MatchPage receiveFinishedMatches(Pageable pageable){
-        Page<MatchEntity> matches= matchRepository.findAll(pageable);
-        List<FinishedMatch> finalMatches = matches.getContent().stream().map(m->
-                new FinishedMatch(m.get_player1().getName(),m.get_player2().getName(),m.get_winner().getName())).
-                toList();
-        return new MatchPage(finalMatches,matches.getNumber(),matches.getTotalPages());
+        return toMatchPage(matchRepository.findAll(pageable));
     }
 
     public MatchPage receiveFinishedMatchesByName(String name, Pageable pageable){
-        Page<MatchEntity> matches =matchRepository.findByName(name, pageable);
+        return toMatchPage(matchRepository.findByName(name, pageable));
+    }
+
+    private MatchPage toMatchPage(Page<MatchEntity> matches){
         List<FinishedMatch> finalMatches = matches.getContent().stream().map(m->
                 new FinishedMatch(m.get_player1().getName(),m.get_player2().getName(),m.get_winner().getName()))
                 .toList();
         return new MatchPage(finalMatches,matches.getNumber(),matches.getTotalPages());
-
     }
 }

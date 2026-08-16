@@ -53,9 +53,6 @@ public class MatchController {
     @GetMapping("/{uuid}")
     public ResponseEntity<?> receiveStatistics(@PathVariable UUID uuid){
         Match match = _onGoingMatches.find(uuid);
-        if(match==null){
-            throw  new MatchNotFoundException("Матч с таким uuid не найден");
-        }
         ScoreResponse response = _scoreService.receiveMatchStatistics(match);
         return ResponseEntity.ok(response);
 
@@ -75,7 +72,7 @@ public class MatchController {
         else {
             matches = _matchService.receiveFinishedMatchesByName(playerName, pageable);
         }
-        return ResponseEntity.ok(Map.of("matches:",matches));
+        return ResponseEntity.ok(matches);
     }
 
 }

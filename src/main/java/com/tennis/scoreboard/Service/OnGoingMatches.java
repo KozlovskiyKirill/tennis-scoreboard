@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -21,7 +22,8 @@ public class OnGoingMatches {
     }
 
     public Match find(UUID uuid){
-        return matches.getOrDefault(uuid, null);
+        return Optional.ofNullable(matches.get(uuid)).orElseThrow(()->new MatchNotFoundException("Матча с таким " +
+                "uuid не существует"));
     }
-    void delete(Match match) {matches.remove(match);}
+    void delete(UUID uuid) {matches.remove(uuid);}
 }

@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler{
@@ -16,5 +17,10 @@ public class GlobalExceptionHandler{
     @ExceptionHandler(MatchNotFoundException.class)
     public ResponseEntity<ErrorMessage>handleNotFound(MatchNotFoundException e){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage(e.getMessage()));
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorMessage> handleTypeMismatch(MethodArgumentTypeMismatchException e){
+        return ResponseEntity.badRequest().body(new ErrorMessage("Некорректный формат идентификатора"));
     }
 }

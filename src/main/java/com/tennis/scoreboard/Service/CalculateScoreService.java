@@ -4,6 +4,7 @@ import com.tennis.scoreboard.DTO.PlayerScore;
 import com.tennis.scoreboard.DTO.ScoreResponse;
 import com.tennis.scoreboard.Enums.PlayerSide;
 import com.tennis.scoreboard.Enums.Score;
+import com.tennis.scoreboard.Exception.MatchNotFoundException;
 import com.tennis.scoreboard.Model.Match;
 import com.tennis.scoreboard.Model.Player;
 import org.springframework.stereotype.Service;
@@ -22,20 +23,24 @@ public class CalculateScoreService {
 
     public ScoreResponse addPoints(UUID uuid, String player){
         Match match = onGoingMatches.find(uuid);
-        // валидация матча
-        // валидация имени
-        Player player1 = match.get_player1();
-        if(player1.name().equals(player)){
-            match.addPoints(PlayerSide.FIRST);}
-        else{
+        if(match.get_player1().name().equals(player)){
+            match.addPoints(PlayerSide.FIRST);
+        }
+        else if (match.get_player2().name().equals(player)){
             match.addPoints(PlayerSide.SECOND);
         }
+        else{
+            throw new IllegalArgumentException("Игрок не участвовал в этом матче");
+        }
 
-        saveMatch.saveMatch(match);
+        saveMatch.saveMatch(uuid,match);
         return gatherStatistics(match);
     }
 
     public ScoreResponse receiveMatchStatistics (Match match){
+        if(match==null){
+            throw  new MatchNotFoundException("Матч с таким uuid не найден");
+        }
         return gatherStatistics(match);
     }
 

@@ -258,6 +258,16 @@ public class SetTest {
     }
 
     @Test
+    void getScoreIsNullDuringTieBreak(){
+        TennisSet set = new TennisSet();
+        reachSixSix(set);
+        set.addPoints(PlayerSide.FIRST);
+        assertTrue(set.getCurrentGame() instanceof TieBreak);
+        assertNull(set.getScore(PlayerSide.FIRST), "во время тай-брейка обычный счёт отсутствует");
+        assertNull(set.getScore(PlayerSide.SECOND));
+    }
+
+    @Test
     void sixSixIsNotFinished(){
         TennisSet set = new TennisSet();
         reachSixSix(set);

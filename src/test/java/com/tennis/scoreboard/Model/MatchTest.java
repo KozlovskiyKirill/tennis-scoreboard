@@ -316,4 +316,18 @@ public class MatchTest {
         Player same = new Player("Same");
         assertThrows(IllegalArgumentException.class, () -> new Match(same, same));
     }
+
+    @Test
+    void matchWithNullPlayerShouldNotBeCreated() {
+        Player player = new Player("Player");
+        assertThrows(IllegalArgumentException.class, () -> new Match(null, player));
+        assertThrows(IllegalArgumentException.class, () -> new Match(player, null));
+    }
+
+    /* ---------- ПРОВЕРКА ВХОДНЫХ ПАРАМЕТРОВ ---------- */
+    @Test
+    void addPointsWithNullPlayerShouldThrow() {
+        Match match = createMatch();
+        assertThrows(IllegalArgumentException.class, () -> match.addPoints(null));
+    }
 }
