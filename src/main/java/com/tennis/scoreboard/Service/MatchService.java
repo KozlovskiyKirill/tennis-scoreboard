@@ -29,8 +29,8 @@ public class MatchService {
     }
 
     public UUID createMatch(CreateMatchRequest response){
-        String firstPlayer = response.firstPlayer();
-        String secondPlayer = response.secondPlayer();
+        String firstPlayer = response.firstPlayerName();
+        String secondPlayer = response.secondPlayerName();
 
         checkPlayersNames(firstPlayer, secondPlayer);
 
@@ -65,6 +65,6 @@ public class MatchService {
         List<FinishedMatch> finalMatches = matches.getContent().stream().map(m->
                 new FinishedMatch(m.get_player1().getName(),m.get_player2().getName(),m.get_winner().getName()))
                 .toList();
-        return new MatchPage(finalMatches,matches.getNumber(),matches.getTotalPages());
+        return new MatchPage(finalMatches,matches.getNumber() + 1,matches.getTotalPages());
     }
 }

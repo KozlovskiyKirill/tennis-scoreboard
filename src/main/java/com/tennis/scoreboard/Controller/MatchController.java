@@ -45,7 +45,7 @@ public class MatchController {
 
     @PostMapping("/{uuid}/point")
     public ResponseEntity<?> addPoints(@PathVariable UUID uuid, @RequestBody AddPointsToPlayer request){
-        String name = request.Player();
+        String name = request.name();
         ScoreResponse response = _scoreService.addPoints(uuid,name);
         return ResponseEntity.ok(response);
     }
@@ -60,11 +60,11 @@ public class MatchController {
 
     @GetMapping
     public ResponseEntity<?> finishedMatches(
-            @RequestParam(required = false) String playerName,
+            @RequestParam(required = false, name = "player_name") String playerName,
             @RequestParam(required = false, defaultValue = "0") Integer page
     ){
         MatchPage matches;
-        Pageable pageable = PageRequest.of(page, 10);
+        Pageable pageable = PageRequest.of(page - 1, 10);
         if (playerName==null) {
             matches = _matchService.receiveFinishedMatches(pageable);
 

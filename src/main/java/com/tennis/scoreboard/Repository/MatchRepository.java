@@ -17,6 +17,6 @@ public interface MatchRepository extends JpaRepository <MatchEntity, Integer> {
     @EntityGraph(attributePaths = {"_player1","_player2","_winner"})
     @Query("SELECT m FROM MatchEntity m WHERE m._player1.name=:name OR m._player2.name=:name")
     Page<MatchEntity> findByName(@Param("name") String name, Pageable pageable);
-    @EntityGraph(attributePaths = {"_player1","_player2","winner"})
+    @EntityGraph(attributePaths = {"_player1","_player2","_winner"})
     Page<MatchEntity> findAll(Pageable pageable);
 }

@@ -1,3 +1,3 @@
 package com.tennis.scoreboard.DTO;
 
-public record CreateMatchRequest(String firstPlayer, String secondPlayer) { }
+public record CreateMatchRequest(String firstPlayerName, String secondPlayerName) { }
