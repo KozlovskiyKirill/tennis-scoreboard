@@ -1,0 +1,642 @@
+{
+  "info": {
+    "_postman_id": "a030413a-c686-4bc8-b157-41f02a5f4d8c",
+    "name": "tennis-scoreboard",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "26657370",
+    "_collection_link": "https://go.postman.co/collection/26657370-a030413a-c686-4bc8-b157-41f02a5f4d8c?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "create_match",
+      "item": [
+        {
+          "name": "/matches",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstPlayer\": \"ABC\",\r\n    \"secondPlayer\": \"DEF\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/matches",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "matches"
+              ],
+              "query": [
+                {
+                  "key": "firstPlayer",
+                  "value": "Max",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "SecondPlayer",
+                  "value": "Michael",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "no body",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/matches",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "matches"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "No first player",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstPlayer\": \"\",\r\n    \"secondPlayer\": \"DEF\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/matches",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "matches"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "No second player",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstPlayer\": \"ABC\",\r\n    \"secondPlayer\": \"\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/matches",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "matches"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "add_point",
+      "item": [
+        {
+          "name": "/matches/{uuid}/point",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"Player\": \"ABC\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/matches/0ab95712-05cc-49d8-8f78-5aa80c4e82da/point",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "matches",
+                "0ab95712-05cc-49d8-8f78-5aa80c4e82da",
+                "point"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/matches/{uuid}/point secondPlayer",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"Player\": \"DEF\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/matches/0ab95712-05cc-49d8-8f78-5aa80c4e82da/point",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "matches",
+                "0ab95712-05cc-49d8-8f78-5aa80c4e82da",
+                "point"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "no body",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/matches/0ab95712-05cc-49d8-8f78-5aa80c4e82da/point",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "matches",
+                "0ab95712-05cc-49d8-8f78-5aa80c4e82da",
+                "point"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "wrong uuid",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstPlayer\": \"ABC\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/matches/0ab95712-05cc-49d8-8f78-5aa80c4e82da/point",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "matches",
+                "0ab95712-05cc-49d8-8f78-5aa80c4e82da",
+                "point"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "wrong player",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstPlayer\": \"qew\",\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/matches/0ab95712-05cc-49d8-8f78-5aa80c4e82da/point",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "matches",
+                "0ab95712-05cc-49d8-8f78-5aa80c4e82da",
+                "point"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "receive_statistics",
+      "item": [
+        {
+          "name": "/matches/{uuid}",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"Player\": \"Federer\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/matches/7797d325-991c-4080-9051-089bf1f9fb85",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "matches",
+                "7797d325-991c-4080-9051-089bf1f9fb85"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "wrong uuid",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"Player\": \"Federer\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/matches/7797d325-991c-4080-9051-089bf1f9fb85",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "matches",
+                "7797d325-991c-4080-9051-089bf1f9fb85"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "player_statistics",
+      "item": [
+        {
+          "name": "only_player",
+          "item": [
+            {
+              "name": "first player",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"Player\": \"Federer\"\r\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/matches?playerName=\"ABC\"",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "matches"
+                  ],
+                  "query": [
+                    {
+                      "key": "playerName",
+                      "value": "\"ABC\"",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "New Request",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"Player\": \"Federer\"\r\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/matches?playerName=DEF",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "matches"
+                  ],
+                  "query": [
+                    {
+                      "key": "playerName",
+                      "value": "DEF",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "emptyName",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"Player\": \"Federer\"\r\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/matches?playerName",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "matches"
+                  ],
+                  "query": [
+                    {
+                      "key": "playerName",
+                      "value": null,
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "playerWithNoMatches",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"Player\": \"Federer\"\r\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/matches?playerName=Anon",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "matches"
+                  ],
+                  "query": [
+                    {
+                      "key": "playerName",
+                      "value": "Anon",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "only_pagination",
+          "item": [
+            {
+              "name": "page 1",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"Player\": \"Federer\"\r\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/matches?page=1",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "matches"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "big page number",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"Player\": \"Federer\"\r\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/matches?page=10",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "matches"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "10",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "empty page",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"Player\": \"Federer\"\r\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/matches?page",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "matches"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": null,
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "player_and_pagination",
+          "item": [
+            {
+              "name": "Nadal 2",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"Player\": \"Federer\"\r\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/matches?playerName=Nadal&page=2",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "matches"
+                  ],
+                  "query": [
+                    {
+                      "key": "playerName",
+                      "value": "Nadal"
+                    },
+                    {
+                      "key": "page",
+                      "value": "2"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "/matches",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/matches",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "matches"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
