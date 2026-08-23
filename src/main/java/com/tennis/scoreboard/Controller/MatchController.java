@@ -64,7 +64,7 @@ public class MatchController {
             @RequestParam(required = false, defaultValue = "0") Integer page
     ){
         MatchPage matches;
-        Pageable pageable = PageRequest.of(page - 1, 10);
+        Pageable pageable = PageRequest.of(page - 1, 3);
         if (playerName==null) {
             matches = _matchService.receiveFinishedMatches(pageable);
 
