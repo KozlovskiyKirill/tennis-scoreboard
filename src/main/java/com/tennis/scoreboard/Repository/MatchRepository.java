@@ -1,7 +1,6 @@
 package com.tennis.scoreboard.Repository;
 
 import com.tennis.scoreboard.Entity.MatchEntity;
-import com.tennis.scoreboard.Model.Match;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;

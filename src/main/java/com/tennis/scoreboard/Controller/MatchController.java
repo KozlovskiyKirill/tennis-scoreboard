@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import com.tennis.scoreboard.Service.SaveMatch;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -64,7 +65,8 @@ public class MatchController {
             @RequestParam(required = false, defaultValue = "0") Integer page
     ){
         MatchPage matches;
-        Pageable pageable = PageRequest.of(page - 1, 3);
+        Pageable pageable = PageRequest.of(Math.max(page, 1) - 1, 3,
+                Sort.by(Sort.Direction.DESC,"ID"));
         if (playerName==null) {
             matches = _matchService.receiveFinishedMatches(pageable);
 
