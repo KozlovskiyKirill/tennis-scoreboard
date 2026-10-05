@@ -1,18 +1,19 @@
 package com.tennis.scoreboard.Entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.util.regex.Pattern;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor (access = AccessLevel.PROTECTED)
 @Table(name = "Players", indexes = {@Index(name = "fn_name_index",columnList = "Name", unique = true)})
 public class PlayerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ID;
+    private Integer ID;
 
     @Column(name = "Name", unique = true, length = 10, nullable = false)
     private String name;

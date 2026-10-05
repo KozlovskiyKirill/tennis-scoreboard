@@ -13,7 +13,7 @@ import org.hibernate.annotations.Check;
 public class MatchEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ID;
+    private Integer ID;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name="Player1")
