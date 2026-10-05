@@ -3,6 +3,7 @@ package com.tennis.scoreboard.Entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import java.util.regex.Pattern;
 
 @Entity
 @Getter
@@ -16,11 +17,11 @@ public class PlayerEntity {
     @Column(name = "Name", unique = true, length = 10, nullable = false)
     private String name;
 
+    private static final Pattern PATTERN_NAME = Pattern.compile("^[a-zA-Z]{2,10}$");
+
     public PlayerEntity (String name){
-        if(name == null || name.isBlank())
-            throw new IllegalArgumentException("Player name must not be blank");
-        if(name.length() > 10)
-            throw new IllegalArgumentException("Player name too long");
+        if(name==null || !PATTERN_NAME.matcher(name).matches())
+            throw new IllegalArgumentException("Incorrect name! It should contain only letters.Max length - 10");
         this.name = name;
     }
 }
